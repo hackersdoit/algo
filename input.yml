@@ -10,6 +10,7 @@
       dns_adblocking: true
       ssh_tunneling: true
       store_pki: true
+      input: 1
     providers_map:
       - { name: "Install to existing Ubuntu 18.04 or 20.04 server (for more advanced users)", alias: local }
   vars_files:
@@ -18,12 +19,6 @@
   tasks:
     - block:
       - name: Cloud prompt
-        pause:
-          prompt: |
-            What provider would you like to use?
-              {% for p in providers_map %}
-              {{ loop.index }}. {{ p['name'] }}
-              {% endfor %}
 
             Enter the number of your desired provider
         register: _algo_provider:local
@@ -31,7 +26,7 @@
 
       - name: Set facts based on the input
         set_fact:
-          algo_provider: "{{ provider | default(providers_map[_algo_provider.user_input|default(omit)|int - 1]['alias']) }}"
+          algo_provider: "{{ provider | default(defaults['input']) }}"
 
       - name: VPN server name prompt
         pause:
