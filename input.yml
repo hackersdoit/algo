@@ -5,22 +5,12 @@
   vars:
     defaults:
       server_name: algo
-      ondemand_cellular: false
-      ondemand_wifi: false
-      dns_adblocking: false
-      ssh_tunneling: false
-      store_pki: false
+      ondemand_cellular: true
+      ondemand_wifi: true
+      dns_adblocking: true
+      ssh_tunneling: true
+      store_pki: true
     providers_map:
-      - { name: DigitalOcean, alias: digitalocean }
-      - { name: Amazon Lightsail, alias: lightsail }
-      - { name: Amazon EC2, alias: ec2 }
-      - { name: Microsoft Azure, alias: azure }
-      - { name: Google Compute Engine, alias: gce }
-      - { name: Hetzner Cloud, alias: hetzner }
-      - { name: Vultr, alias: vultr }
-      - { name: Scaleway, alias: scaleway}
-      - { name: OpenStack (DreamCompute optimised), alias: openstack }
-      - { name: CloudStack (Exoscale optimised), alias: cloudstack }
       - { name: "Install to existing Ubuntu 18.04 or 20.04 server (for more advanced users)", alias: local }
   vars_files:
     - config.cfg
@@ -36,7 +26,7 @@
               {% endfor %}
 
             Enter the number of your desired provider
-        register: _algo_provider
+        register: _algo_provider:local
         when: provider is undefined
 
       - name: Set facts based on the input
